@@ -1,4 +1,5 @@
 package com.pranjal.journalapp.service;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -15,29 +16,37 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public void saveEntry (User user)
-    {
+    public void saveEntry(User user) {
         userRepository.save(user);
     }
-    public void saveNewUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user);
+
+    public void saveNewUser(User user) {
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
-    public List<User> getAll(){
+
+    public List<User> getAll() {
         return userRepository.findAll();
     }
-    public Optional<User> findById(ObjectId id){
+
+    public Optional<User> findById(ObjectId id) {
         return userRepository.findById(id);
     }
-    public void deleteById(ObjectId id){
+
+    public void deleteById(ObjectId id) {
         userRepository.deleteById(id);
         return;
     }
-    public User findByUserName(String userName){
+
+    public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
-}
+ }
